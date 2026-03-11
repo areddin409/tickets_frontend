@@ -1,6 +1,6 @@
-import NavBar from "@/components/nav-bar";
-import { SimplePagination } from "@/components/simple-pagination";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import NavBar from '@/components/nav-bar';
+import { SimplePagination } from '@/components/simple-pagination';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,20 +10,20 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   EventSummary,
   EventStatusEnum,
   SpringBootPagination,
-} from "@/domain/domain";
-import { deleteEvent, listEvents } from "@/lib/api";
+} from '@/domain/domain';
+import { deleteEvent, listEvents } from '@/lib/api';
 import {
   AlertCircle,
   Calendar,
@@ -32,10 +32,10 @@ import {
   MapPin,
   Tag,
   Trash,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { useAuth } from "react-oidc-context";
-import { Link } from "react-router";
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useAuth } from 'react-oidc-context';
+import { Link } from 'react-router';
 
 const DashboardListEventsPage: React.FC = () => {
   const { isLoading, user } = useAuth();
@@ -66,47 +66,47 @@ const DashboardListEventsPage: React.FC = () => {
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
-      } else if (typeof err === "string") {
+      } else if (typeof err === 'string') {
         setError(err);
       } else {
-        setError("An unknown error has occurred");
+        setError('An unknown error has occurred');
       }
     }
   };
 
   const formatDate = (date?: Date) => {
     if (!date) {
-      return "TBD";
+      return 'TBD';
     }
-    return new Date(date).toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
+    return new Date(date).toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
     });
   };
 
   const formatTime = (date?: Date) => {
     if (!date) {
-      return "";
+      return '';
     }
-    return new Date(date).toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date(date).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
   const formatStatusBadge = (status: EventStatusEnum) => {
     switch (status) {
       case EventStatusEnum.DRAFT:
-        return "bg-gray-700 text-gray-200";
+        return 'bg-gray-700 text-gray-200';
       case EventStatusEnum.PUBLISHED:
-        return "bg-green-700 text-green-100";
+        return 'bg-green-700 text-green-100';
       case EventStatusEnum.CANCELLED:
-        return "bg-red-700 text-red-100";
+        return 'bg-red-700 text-red-100';
       case EventStatusEnum.COMPLETED:
-        return "bg-blue-700 text-blue-100";
+        return 'bg-blue-700 text-blue-100';
       default:
-        return "bg-gray-700 text-gray-200";
+        return 'bg-gray-700 text-gray-200';
     }
   };
 
@@ -136,10 +136,10 @@ const DashboardListEventsPage: React.FC = () => {
     } catch (err) {
       if (err instanceof Error) {
         setDeleteEventError(err.message);
-      } else if (typeof err === "string") {
+      } else if (typeof err === 'string') {
         setDeleteEventError(err);
       } else {
-        setDeleteEventError("An unknown error has occurred");
+        setDeleteEventError('An unknown error has occurred');
       }
     }
   };
@@ -178,8 +178,11 @@ const DashboardListEventsPage: React.FC = () => {
 
         {/* Event Cards */}
         <div className="space-y-2">
-          {events?.content.map((eventItem) => (
-            <Card className="bg-gray-900 border-gray-700 text-white">
+          {events?.content.map(eventItem => (
+            <Card
+              key={eventItem.id}
+              className="bg-gray-900 border-gray-700 text-white"
+            >
               <CardHeader>
                 <div className="flex justify-between">
                   <h3 className="font-bold text-xl">{eventItem.name}</h3>
@@ -196,11 +199,11 @@ const DashboardListEventsPage: React.FC = () => {
                   <Calendar className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="font-medium">
-                      {formatDate(eventItem.start)} to{" "}
+                      {formatDate(eventItem.start)} to{' '}
                       {formatDate(eventItem.end)}
                     </p>
                     <p className="text-gray-400">
-                      {formatTime(eventItem.start)} -{" "}
+                      {formatTime(eventItem.start)} -{' '}
                       {formatTime(eventItem.end)}
                     </p>
                   </div>
@@ -211,7 +214,7 @@ const DashboardListEventsPage: React.FC = () => {
                   <div>
                     <h4 className="font-medium">Sales Period</h4>
                     <p className="text-gray-400">
-                      {formatDate(eventItem.salesStart)} to{" "}
+                      {formatDate(eventItem.salesStart)} to{' '}
                       {formatDate(eventItem.salesEnd)}
                     </p>
                   </div>
@@ -227,7 +230,7 @@ const DashboardListEventsPage: React.FC = () => {
                   <div>
                     <h4 className="font-medium">Ticket Types</h4>
                     <ul>
-                      {eventItem.ticketTypes.map((ticketType) => (
+                      {eventItem.ticketTypes.map(ticketType => (
                         <li
                           key={ticketType.id}
                           className="flex gap-2 text-gray-400"

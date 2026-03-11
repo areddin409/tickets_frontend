@@ -41,6 +41,7 @@ import { format } from 'date-fns';
 import {
   AlertCircle,
   CalendarIcon,
+  Clock,
   Edit,
   Plus,
   Ticket,
@@ -67,6 +68,26 @@ const DateTimeSelect: React.FC<DateTimeSelectProperties> = ({
   enabled,
   setEnabled,
 }) => {
+  // Convert 24-hour time to 12-hour format with AM/PM
+  const get12HourFormat = (time24: string | undefined) => {
+    if (!time24) return { hour: '12', minute: '00', period: 'PM' };
+    const [hourStr, minute] = time24.split(':');
+    const hour24 = parseInt(hourStr);
+    const period = hour24 >= 12 ? 'PM' : 'AM';
+    const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
+    return { hour: String(hour12).padStart(2, '0'), minute, period };
+  };
+
+  // Convert 12-hour format to 24-hour time
+  const to24HourFormat = (hour12: string, minute: string, period: string) => {
+    let hour24 = parseInt(hour12);
+    if (period === 'AM' && hour24 === 12) hour24 = 0;
+    if (period === 'PM' && hour24 !== 12) hour24 += 12;
+    return `${String(hour24).padStart(2, '0')}:${minute}`;
+  };
+
+  const { hour, minute, period } = get12HourFormat(time);
+
   return (
     <div className="flex gap-2 items-center">
       <Switch checked={enabled} onCheckedChange={setEnabled} />
@@ -81,7 +102,10 @@ const DateTimeSelect: React.FC<DateTimeSelectProperties> = ({
                 {date ? format(date, 'PPP') : <span>Pick a Date</span>}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent
+              className="w-auto p-0 bg-gray-900 border-gray-700"
+              align="start"
+            >
               <Calendar
                 mode="single"
                 selected={date}
@@ -102,19 +126,121 @@ const DateTimeSelect: React.FC<DateTimeSelectProperties> = ({
 
                   setDate(localDate);
                 }}
-                className="rounded-md border shadow"
+                className="rounded-md"
+                classNames={{
+                  months: 'flex flex-col sm:flex-row gap-2',
+                  month: 'flex flex-col gap-4',
+                  caption:
+                    'flex justify-center pt-1 relative items-center text-white',
+                  caption_label: 'text-sm font-medium text-white',
+                  nav_button:
+                    'size-7 bg-transparent p-0 text-gray-400 hover:text-white hover:bg-gray-800',
+                  head_cell:
+                    'text-gray-400 rounded-md w-8 font-normal text-[0.8rem]',
+                  cell: 'text-white',
+                  day: 'size-8 p-0 font-normal text-white hover:bg-gray-800 hover:rounded-md aria-selected:opacity-100',
+                  day_selected:
+                    'bg-purple-700 text-white hover:bg-purple-600 focus:bg-purple-700 rounded-md',
+                  day_today: 'bg-gray-800 text-white rounded-md',
+                  day_outside: 'text-gray-600 opacity-50',
+                  day_disabled: 'text-gray-600 opacity-50',
+                }}
               />
             </PopoverContent>
           </Popover>
           {/* Time */}
-          <div className="flex gap-2 items-center">
-            <Input
-              type="time"
-              className="w-[90px] bg-gray-900 text-white border-gray-700 border [&::-webkit-calendar-picker-indicator]:invert"
-              value={time}
-              onChange={e => setTime(e.target.value)}
-            />
-          </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button className="bg-gray-900 border-gray-700 border">
+                <Clock className="h-4 w-4 mr-2" />
+                {time ? `${hour}:${minute} ${period}` : 'Pick time'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-64 p-3 bg-gray-900 border-gray-700"
+              align="start"
+            >
+              <Label className="text-xs text-gray-400 mb-2 block">Time</Label>
+              <div className="flex gap-2">
+                {/* Hour */}
+                <Select
+                  value={hour}
+                  onValueChange={newHour => {
+                    setTime(to24HourFormat(newHour, minute, period));
+                  }}
+                >
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue placeholder="Hour" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-700 max-h-60">
+                    {Array.from({ length: 12 }, (_, i) => {
+                      const h = i + 1;
+                      return (
+                        <SelectItem
+                          key={h}
+                          value={String(h).padStart(2, '0')}
+                          className="text-white hover:bg-gray-700 hover:text-white focus:bg-purple-700 focus:text-white"
+                        >
+                          {String(h).padStart(2, '0')}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+
+                <span className="flex items-center text-white">:</span>
+
+                {/* Minute */}
+                <Select
+                  value={minute}
+                  onValueChange={newMinute => {
+                    setTime(to24HourFormat(hour, newMinute, period));
+                  }}
+                >
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue placeholder="Min" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-700 max-h-60">
+                    {['00', '15', '30', '45'].map(min => (
+                      <SelectItem
+                        key={min}
+                        value={min}
+                        className="text-white hover:bg-gray-700 hover:text-white focus:bg-purple-700 focus:text-white"
+                      >
+                        {min}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* AM/PM */}
+                <Select
+                  value={period}
+                  onValueChange={newPeriod => {
+                    setTime(to24HourFormat(hour, minute, newPeriod));
+                  }}
+                >
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-700">
+                    <SelectItem
+                      value="AM"
+                      className="text-white hover:bg-gray-700 hover:text-white focus:bg-purple-700 focus:text-white"
+                    >
+                      AM
+                    </SelectItem>
+                    <SelectItem
+                      value="PM"
+                      className="text-white hover:bg-gray-700 hover:text-white focus:bg-purple-700 focus:text-white"
+                    >
+                      PM
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       )}
     </div>
@@ -372,6 +498,29 @@ const DashboardManageEventPage: React.FC = () => {
       return;
     }
 
+    // Validate that if date is selected, time must also be selected
+    if (eventDateEnabled) {
+      if (eventData.startDate && !eventData.startTime) {
+        setError('Please select a start time for the event');
+        return;
+      }
+      if (eventData.endDate && !eventData.endTime) {
+        setError('Please select an end time for the event');
+        return;
+      }
+    }
+
+    if (eventSalesDateEnabled) {
+      if (eventData.salesStartDate && !eventData.salesStartTime) {
+        setError('Please select a start time for ticket sales');
+        return;
+      }
+      if (eventData.salesEndDate && !eventData.salesEndTime) {
+        setError('Please select an end time for ticket sales');
+        return;
+      }
+    }
+
     if (isEditMode) {
       if (!eventData.id) {
         setError('Event does not have an ID');
@@ -589,7 +738,10 @@ const DashboardManageEventPage: React.FC = () => {
                 <CardContent className="space-y-2">
                   {eventData.ticketTypes.map(ticketType => {
                     return (
-                      <div className="bg-gray-700 w-full p-4 rounded-lg border-gray-600">
+                      <div
+                        key={ticketType.id}
+                        className="bg-gray-700 w-full p-4 rounded-lg border-gray-600"
+                      >
                         <div className="flex justify-between items-center">
                           {/* Left */}
                           <div>
