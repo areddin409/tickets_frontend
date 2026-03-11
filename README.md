@@ -5,12 +5,14 @@ A modern event ticketing platform built with React 19 and TypeScript, enabling e
 ## Features
 
 ### Public Features
+
 - **Browse Events**: View published events with search and pagination
 - **Event Details**: Detailed event pages with venue information, dates, and available ticket types
 - **Ticket Purchase**: Secure ticket purchasing with OIDC authentication
 - **Responsive Design**: Mobile-friendly dark theme UI
 
 ### Organizer Dashboard
+
 - **Event Management**: Create, edit, and publish events with detailed configurations
 - **Ticket Type Management**: Define multiple ticket types with pricing and availability
 - **Ticket Validation**: QR code scanner for validating tickets at events
@@ -31,7 +33,7 @@ A modern event ticketing platform built with React 19 and TypeScript, enabling e
 
 ## Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - Spring Boot backend running on `http://localhost:8080`
 - Keycloak server running on `http://localhost:9090`
@@ -105,7 +107,7 @@ const oidcConfig = {
   client_id: 'event-ticket-platform-app',
   redirect_uri: 'http://localhost:5173/callback',
   // ...
-}
+};
 ```
 
 ## Project Structure
