@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { PublishedEventSummary, SpringBootPagination } from "@/domain/domain";
 import { listPublishedEvents, searchPublishedEvents } from "@/lib/api";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import PublishedEventCard from "@/components/published-event-card";
+import PublishedEventCard from "@/components/events/published-event-card";
 import { SimplePagination } from "@/components/simple-pagination";
 
 const AttendeeLandingPage: React.FC = () => {
@@ -47,7 +47,7 @@ const AttendeeLandingPage: React.FC = () => {
 
   const queryPublishedEvents = async () => {
     if (!query) {
-      await refreshPublishedEvents();
+      return await refreshPublishedEvents();
     }
 
     try {

@@ -1,4 +1,4 @@
-import RandomEventImage from "@/components/random-event-image";
+import RandomEventImage from "@/components/events/random-event-image";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";

@@ -3,7 +3,17 @@
     "allow": [
       "Bash(docker --version)",
       "Bash(docker info:*)",
-      "Bash(npx shadcn@latest add --all --yes)"
+      "Bash(npx shadcn@latest add --all --yes)",
+      "Bash(BASE=\"d:/Web Dev/2026/Ticket_Event_Platform/tickets_frontend/src/components\")",
+      "Bash(mv \"$BASE/nav-bar.tsx\" \"$BASE/layout/nav-bar.tsx\")",
+      "Bash(mv \"$BASE/protected-route.tsx\" \"$BASE/layout/protected-route.tsx\")",
+      "Bash(mv \"$BASE/error-boundary.tsx\" \"$BASE/layout/error-boundary.tsx\")",
+      "Bash(mv \"$BASE/error-page.tsx\" \"$BASE/layout/error-page.tsx\")",
+      "Bash(mv \"$BASE/not-found-page.tsx\" \"$BASE/layout/not-found-page.tsx\")",
+      "Bash(mv \"$BASE/date-time-picker.tsx\" \"$BASE/events/date-time-picker.tsx\")",
+      "Bash(mv \"$BASE/time-select.tsx\" \"$BASE/events/time-select.tsx\")",
+      "Bash(mv \"$BASE/published-event-card.tsx\" \"$BASE/events/published-event-card.tsx\")",
+      "Bash(mv \"$BASE/random-event-image.tsx\" \"$BASE/events/random-event-image.tsx\")"
     ]
   }
 }

@@ -1,5 +1,5 @@
-import { useAuth } from "react-oidc-context";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { useAuth } from 'react-oidc-context';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,10 +7,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { LogOut } from "lucide-react";
-import { useRoles } from "@/hooks/use-roles";
-import { Link } from "react-router";
+} from '@/components/ui/dropdown-menu';
+import { LogOut } from 'lucide-react';
+import { useRoles } from '@/hooks/use-roles';
+import { Link } from 'react-router';
 
 const NavBar: React.FC = () => {
   const { user, signoutRedirect } = useAuth();

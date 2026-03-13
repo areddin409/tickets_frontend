@@ -1,7 +1,7 @@
 import { AlertCircle, Home, RefreshCw } from 'lucide-react';
 import { Link, useRouteError } from 'react-router';
-import { Button } from './ui/button';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface RouteError {
   statusText?: string;

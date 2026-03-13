@@ -1,5 +1,5 @@
 import { PublishedEventSummary } from "@/domain/domain";
-import { Card } from "./ui/card";
+import { Card } from "@/components/ui/card";
 import { Calendar, Heart, MapPin, Share2 } from "lucide-react";
 import { format } from "date-fns";
 import { Link } from "react-router";

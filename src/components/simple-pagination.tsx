@@ -1,5 +1,5 @@
 import { SpringBootPagination } from '@/domain/domain';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface SimplePaginationProps<T> {

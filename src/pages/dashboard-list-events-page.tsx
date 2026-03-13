@@ -1,4 +1,4 @@
-import NavBar from '@/components/nav-bar';
+import NavBar from '@/components/layout/nav-bar';
 import { SimplePagination } from '@/components/simple-pagination';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {

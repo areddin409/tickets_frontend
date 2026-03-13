@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import OrganizersLandingPage from './pages/organizers-landing-page.tsx';
 import DashboardManageEventPage from './pages/dashboard-manage-event-page.tsx';
 import LoginPage from './pages/login-page.tsx';
-import ProtectedRoute from './components/protected-route.tsx';
+import ProtectedRoute from './components/layout/protected-route.tsx';
 import CallbackPage from './pages/callback-page.tsx';
 import DashboardListEventsPage from './pages/dashboard-list-events-page.tsx';
 import PublishedEventsPage from './pages/published-events-page.tsx';
@@ -15,9 +15,9 @@ import DashboardListTickets from './pages/dashboard-list-tickets.tsx';
 import DashboardPage from './pages/dashboard-page.tsx';
 import DashboardViewTicketPage from './pages/dashboard-view-ticket-page.tsx';
 import DashboardValidateQrPage from './pages/dashboard-validate-qr-page.tsx';
-import ErrorPage from './components/error-page.tsx';
-import NotFoundPage from './components/not-found-page.tsx';
-import ErrorBoundary from './components/error-boundary.tsx';
+import ErrorPage from './components/layout/error-page.tsx';
+import NotFoundPage from './components/layout/not-found-page.tsx';
+import ErrorBoundary from './components/layout/error-boundary.tsx';
 
 const router = createBrowserRouter([
   {
