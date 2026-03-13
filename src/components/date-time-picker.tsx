@@ -183,7 +183,8 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
                   'w-full h-full p-0 font-medium text-sm text-zinc-200 hover:bg-zinc-800/50 hover:text-white rounded-md transition-colors data-[selected-single=true]:bg-white data-[selected-single=true]:text-black data-[selected-single=true]:hover:bg-white data-[selected-single=true]:hover:text-black',
                 // selected:
                 //   'bg-white text-black font-semibold hover:bg-white hover:text-black',
-                today: 'bg-zinc-800/30 text-zinc-100 ring-1 ring-zinc-700 rounded-md',
+                today:
+                  'bg-zinc-800/30 text-zinc-100 ring-1 ring-zinc-700 rounded-md',
                 outside: 'text-zinc-600 opacity-50',
                 disabled: 'text-zinc-700 opacity-30',
               }}
