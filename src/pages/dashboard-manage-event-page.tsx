@@ -11,6 +11,12 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from '@/components/ui/input-group';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -27,6 +33,7 @@ import {
   AlertCircle,
   ArrowLeft,
   Edit,
+  Minus,
   Plus,
   Ticket,
   Trash2,
@@ -111,16 +118,18 @@ const DashboardManageEventPage: React.FC = () => {
         setEventData({
           id: event.id,
           name: event.name,
-          startDate: event.start,
+          startDate: event.start ? new Date(event.start) : undefined,
           startTime: event.start ? fmt(new Date(event.start)) : undefined,
-          endDate: event.end,
+          endDate: event.end ? new Date(event.end) : undefined,
           endTime: event.end ? fmt(new Date(event.end)) : undefined,
           venueDetails: event.venue,
-          salesStartDate: event.salesStart,
+          salesStartDate: event.salesStart
+            ? new Date(event.salesStart)
+            : undefined,
           salesStartTime: event.salesStart
             ? fmt(new Date(event.salesStart))
             : undefined,
-          salesEndDate: event.salesEnd,
+          salesEndDate: event.salesEnd ? new Date(event.salesEnd) : undefined,
           salesEndTime: event.salesEnd
             ? fmt(new Date(event.salesEnd))
             : undefined,
@@ -520,48 +529,97 @@ const DashboardManageEventPage: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-zinc-300">
-                        Price ($)
+                        Price
                       </Label>
-                      <Input
-                        type="number"
-                        className="bg-zinc-800/50 border border-zinc-700 text-white rounded-md focus-visible:border-zinc-500 focus-visible:ring-1 focus-visible:ring-zinc-500"
-                        placeholder="0.00"
-                        step="0.01"
-                        value={currentTicketType?.price}
-                        onChange={e =>
-                          setCurrentTicketType(
-                            currentTicketType
-                              ? {
-                                  ...currentTicketType,
-                                  price: Number.parseFloat(e.target.value),
-                                }
-                              : undefined
-                          )
-                        }
-                      />
+                      <InputGroup className="bg-zinc-800/50 border-zinc-700 focus-within:border-zinc-500 focus-within:ring-zinc-500">
+                        <InputGroupAddon align="inline-start">
+                          <span className="text-zinc-400">$</span>
+                        </InputGroupAddon>
+                        <InputGroupInput
+                          type="number"
+                          className="text-white placeholder:text-zinc-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none selection:bg-white selection:text-black"
+                          placeholder="0.00"
+                          step="0.01"
+                          min="0"
+                          value={currentTicketType?.price || ''}
+                          onChange={e =>
+                            setCurrentTicketType(
+                              currentTicketType
+                                ? {
+                                    ...currentTicketType,
+                                    price: e.target.value
+                                      ? Number.parseFloat(e.target.value)
+                                      : 0,
+                                  }
+                                : undefined
+                            )
+                          }
+                        />
+                      </InputGroup>
                     </div>
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-zinc-300">
                         Quantity
                       </Label>
-                      <Input
-                        type="number"
-                        className="bg-zinc-800/50 border border-zinc-700 text-white rounded-md focus-visible:border-zinc-500 focus-visible:ring-1 focus-visible:ring-zinc-500"
-                        placeholder="100"
-                        value={currentTicketType?.totalAvailable}
-                        onChange={e =>
-                          setCurrentTicketType(
-                            currentTicketType
-                              ? {
-                                  ...currentTicketType,
-                                  totalAvailable: Number.parseFloat(
-                                    e.target.value
-                                  ),
-                                }
-                              : undefined
-                          )
-                        }
-                      />
+                      <InputGroup className="bg-zinc-800/50 border-zinc-700 focus-within:border-zinc-500 focus-within:ring-zinc-500">
+                        <InputGroupButton
+                          size="icon-sm"
+                          onClick={() =>
+                            setCurrentTicketType(
+                              currentTicketType
+                                ? {
+                                    ...currentTicketType,
+                                    totalAvailable: Math.max(
+                                      0,
+                                      (currentTicketType.totalAvailable || 0) -
+                                        1
+                                    ),
+                                  }
+                                : undefined
+                            )
+                          }
+                          className="text-zinc-400 hover:text-white"
+                        >
+                          <Minus className="w-4 h-4" />
+                        </InputGroupButton>
+                        <InputGroupInput
+                          type="number"
+                          className="text-white placeholder:text-zinc-500 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none selection:bg-white selection:text-black"
+                          placeholder="100"
+                          min="0"
+                          value={currentTicketType?.totalAvailable || ''}
+                          onChange={e =>
+                            setCurrentTicketType(
+                              currentTicketType
+                                ? {
+                                    ...currentTicketType,
+                                    totalAvailable: e.target.value
+                                      ? Number.parseFloat(e.target.value)
+                                      : 0,
+                                  }
+                                : undefined
+                            )
+                          }
+                        />
+                        <InputGroupButton
+                          size="icon-sm"
+                          onClick={() =>
+                            setCurrentTicketType(
+                              currentTicketType
+                                ? {
+                                    ...currentTicketType,
+                                    totalAvailable:
+                                      (currentTicketType.totalAvailable || 0) +
+                                      1,
+                                  }
+                                : undefined
+                            )
+                          }
+                          className="text-zinc-400 hover:text-white"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </InputGroupButton>
+                      </InputGroup>
                     </div>
                   </div>
                   <div className="space-y-2">
