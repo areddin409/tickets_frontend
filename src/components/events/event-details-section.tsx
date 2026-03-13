@@ -72,12 +72,12 @@ export const EventDetailsSection: React.FC<EventDetailsSectionProps> = ({
         />
       </div>
 
-      {/* Location */}
+      {/* Venue */}
       <div className="space-y-2">
-        <Label className="text-sm font-medium text-zinc-300">Location</Label>
+        <Label className="text-sm font-medium text-zinc-300">Venue</Label>
         <Input
           className="bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-500 rounded-md h-11 focus-visible:border-zinc-500 focus-visible:ring-1 focus-visible:ring-zinc-500"
-          placeholder="Add location or address"
+          placeholder="Add venue or address"
           value={venueDetails}
           onChange={e => onVenueChange(e.target.value)}
         />
